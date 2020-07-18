@@ -8,7 +8,7 @@ class HelloWorldFrame(tk.Frame):
         # Place frame into main window
         self.grid()
         # Create text box with "Hello World" text
-        hello = tk.Label(self, text=f"Hello World! My name is {"Ryan"}!")
+        hello = tk.Label(self, text=f"Hello World! My name is {name}!")
         # Place text box into frame
         hello.grid(row=0, column=0)
 
@@ -19,6 +19,6 @@ if __name__ == "__main__":
     # Set title of window
     root.title("Hello World!")
     # Instantiate HelloWorldFrame object
-    hello_frame = HelloWorldFrame(root,"Nikola Tesla")
+    hello_frame = HelloWorldFrame(root,"Ryan Ferguson")
     # Start GUI
     hello_frame.mainloop()
