@@ -8,7 +8,7 @@ class HelloWorldFrame(tk.Frame):
         # Place frame into main window
         self.grid()
         # Create text box with "Hello World" text
-        hello = tk.Label(self, text=f"Hello World! My name is {Ryan}!")
+        hello = tk.Label(self, text=f"Hello World! My name is {"Ryan"}!")
         # Place text box into frame
         hello.grid(row=0, column=0)
 
