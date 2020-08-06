@@ -1,6 +1,7 @@
 #animal sprites from whtdragon on rpgmaker forums, used with permission
 #bullet sprites and background from freepik.com edited by myself
 #target dummy sprite from maplestory
+# all sounds royalty free from dl-sounds.com
 
 
 import sys
@@ -8,6 +9,7 @@ import os
 import pprint
 import pygame
 import math
+from pygame import mixer
 
 #initialize pygame
 pygame.init()
@@ -37,13 +39,35 @@ target = pygame.image.load(os.path.join(mydir, "dummy2.png"))
 #clock
 clock = pygame.time.Clock()
 
+#sounds for startup
+mixer.music.load('background_music.wav')
+mixer.music.play(-1)
+cat_sound = mixer.Sound('cat_meow.wav')
+cat_sound.play()
+dog_sound = mixer.Sound('Pew_Pew.wav')
 
+'''
+#camera class
+class Camera(object):
+    def __init__(self, camera_func, width, height):
+        self.camera_func = camera_func
+        self.state = Rect(0, 0, width, height)
+
+    def apply(self, target):
+        return target.rect.move(self.state.topleft)
+
+    def update(self, target):
+        self.state = self.camera_func(self.state, target.rect)
+'''
+#bounds animation check
+left_Barrier = False
+rightBarrier = False
 
 #player data
 
 playerX = 100
 playerY = 480
-playervel = 6
+playervel = 8
 playerW = 48
 playerH = 26
 left = False
@@ -115,6 +139,7 @@ def redrawWindow():
     global Cleft
     global idle
     #create background in window
+    #background sound
     screen.blit(bg, (0,0))
     screen.blit(bgbottom, (0, 500))
     screen.blit(ob1, (400, 409))
@@ -153,10 +178,14 @@ def redrawWindow():
         bulletY = playerY
 
     if shoot:
-        hbp = pygame.Surface((30,30))  # the size of your rect
-        hbp.set_alpha(128)                # alpha level
-        hbp.fill((255,255,255))           # this fills the entire surface
-        screen.blit(hbp, (bulletX,bulletY))    # (0,0) are the top-left coordinates
+        if not shot:
+            dog_sound.play()
+            shot = True
+        #bullet hitbox
+        hbb = pygame.Surface((25,25))  # the size of your rect
+        hbb.set_alpha(128)                # alpha level
+        hbb.fill((255,255,255))           # this fills the entire surface
+        screen.blit(hbb, (bulletX,bulletY))    # (0,0) are the top-left coordinates
         #check if shooting up and prevent bullet direction change
         if up and not lShoot and not rShoot:
             upShoot = True
@@ -239,6 +268,7 @@ running = True
 while running:
     clock.tick(18)
     pygame.time.delay(50)
+    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -278,7 +308,7 @@ while running:
         Cright = False
         catStanding = False
     
-    elif Cright and catX < 800 - catW:
+    elif Cright and catX < 1600 - catW:
         catX += catVel
         Cleft = False
         catStanding = False
